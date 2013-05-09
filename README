@@ -1,0 +1,43 @@
+NAME
+    PlugAuth::Lite - Pluggable (lite) authentication and authorization
+    server.
+
+VERSION
+    version 0.01
+
+SYNOPSIS
+    command line:
+
+     % plugauthlite
+
+    Mojolicious (lite):
+
+     use Mojolicious::Lite;
+ 
+     plugin 'plug_auth_lite';
+
+DESCRIPTION
+    This distribution provides a PlugAuth compatible server in the form of a
+    Mojolicious lite application (plugauthlite) and Mojolicious Plugin
+    (Mojolicious::Plugin::PlugAuthLite). In the future it will also contain
+    a testing interface for testing authentication and authorization rules
+    in Clustericious applications.
+
+    It has fewer prerequisites that the full fledged PlugAuth server (simply
+    Mojolicious and perl itself) but also fewer features (it notably lacks
+    the management interface). See the other modules in this distribution
+    for details.
+
+SEE ALSO
+    plugauthlite, Mojolicious::Plugin::PlugAuthLite, Test::PlugAuth,
+    Clustericious
+
+AUTHOR
+    Graham Ollis <plicease@cpan.org>
+
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2013 by Graham Ollis.
+
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
+

@@ -1,0 +1,43 @@
+{
+   "abstract" : "Pluggable (lite) authentication and authorization server.",
+   "author" : [
+      "Graham Ollis <plicease@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 4.300034, CPAN::Meta::Converter version 2.130880",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "PlugAuth-Lite",
+   "prereqs" : {
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.30"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Mojolicious" : "3.86",
+            "perl" : "5.010001"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/plicease/plugauth-lite/issues"
+      },
+      "homepage" : "http://perl.wdlabs.com/PlugAuth-Lite/",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/plicease/plugauth-lite.git",
+         "web" : "https://github.com/plicease/plugauth-lite"
+      }
+   },
+   "version" : "0.01"
+}
+
