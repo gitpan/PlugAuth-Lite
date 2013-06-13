@@ -1,5 +1,8 @@
 Revision history for PlugAuth-Lite
 
+0.04      2013-06-13 16:53:50 America/New_York
+  - documentation
+
 0.03      2013-06-13 16:25:05 America/New_York
   - undocumented host routes (experimental)
   - if you die in a callback server catches it and returns 503
