@@ -5,52 +5,71 @@ use Mojo::ByteStream qw( b );
 use v5.10;
 
 # ABSTRACT: Add a minimal PlugAuth server to your Mojolicious application.
-our $VERSION = '0.02'; # VERSION
+our $VERSION = '0.03'; # VERSION
 
 
 sub register
 {
   my($self, $app, $conf) = @_;
   
-  my $auth  = $conf->{auth}  // sub { 0 };
-  my $authz = $conf->{authz} // sub { 1 };
+  my $cb_auth  = $conf->{auth}  // sub { 0 };
+  my $cb_authz = $conf->{authz} // sub { 1 };
+  my $cb_host  = $conf->{host}  // sub { 0 };
   my $realm = $conf->{realm} // 'PlugAuthLite';
   my $base_url = $conf->{url} // $conf->{uri} // '';
 
   $app->routes->get("$base_url/auth" => sub {
     my $self = shift;
-    my $auth_header = $self->req->headers->authorization;
-    unless($auth_header)
-    {
-      $self->res->headers->www_authenticate('Basic "$realm"');
-      $self->render(text => 'please authenticate', status => 401);
-      return;
-    }
-    my ($method,$str) = split / /,$auth_header;
-    my ($user,$pw) = split /:/, b($str)->b64_decode;
-    if($auth->($user, $pw))
-    {
-      $self->render(text => 'ok', status => 200);
-    }
-    else
-    {
-      $self->render(text => 'not ok', status => 403);
-    }
+    eval {
+      my $auth_header = $self->req->headers->authorization;
+      unless($auth_header)
+      {
+        $self->res->headers->www_authenticate('Basic "$realm"');
+        $self->render(text => 'please authenticate', status => 401);
+        return;
+      }
+      my ($method,$str) = split / /,$auth_header;
+      my ($user,$pw) = split /:/, b($str)->b64_decode;
+      if($cb_auth->($user, $pw))
+      {
+        $self->render(text => 'ok', status => 200);
+      }
+      else
+      {
+        $self->render(text => 'not ok', status => 403);
+      }
+    };
+    $self->render(text => 'not ok', status => 503) if $@;
   })->name('plugauth_auth');
   
   $app->routes->get("$base_url/authz/user/#user/#action/(*resource)" => { resource => '/' } => sub {
     my $self = shift;
-    my($user, $resource, $action) = map { $self->stash($_) } qw( user resource action );
-    $resource =~ s{^/?}{/};
-    if($authz->($user, $action, $resource))
-    {
-      $self->render(text => 'ok', status => 200);
-    }
-    else
-    {
-      $self->render(text => 'not ok', status => 403);
-    }
+    eval {
+      my($user, $resource, $action) = map { $self->stash($_) } qw( user resource action );
+      $resource =~ s{^/?}{/};
+      if($cb_authz->($user, $action, $resource))
+      {
+        $self->render(text => 'ok', status => 200);
+      }
+      else
+      {
+        $self->render(text => 'not ok', status => 403);
+      }
+    };
+    $self->render(text => 'not ok', status => 503) if $@;
   })->name('plugauth_authz');
+  
+  $app->routes->get("$base_url/host/#host/:tag" => sub {
+    my $self = shift;
+    eval {
+      my ($host,$tag) = map $self->stash($_), qw/host tag/;
+      if ($cb_host->($host,$tag)) {
+        return $self->render(text => 'ok', status => 200);
+      }
+      return $self->render(text => 'not ok', status => 403);
+    };
+    $self->render(text => 'not ok', status => 503) if $@;
+  })->name('plugauth_host');
   
   return;
 }
@@ -67,7 +86,7 @@ Mojolicious::Plugin::PlugAuthLite - Add a minimal PlugAuth server to your Mojoli
 
 =head1 VERSION
 
-version 0.02
+version 0.03
 
 =head1 SYNOPSIS
 

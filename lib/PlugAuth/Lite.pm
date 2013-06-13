@@ -6,15 +6,16 @@ use v5.10;
 use Mojo::Base qw( Mojolicious );
 
 # ABSTRACT: Pluggable (lite) authentication and authorization server.
-our $VERSION = '0.02'; # VERSION
+our $VERSION = '0.03'; # VERSION
 
 sub startup
 {
   my($self, $config) = @_;
 
   $self->plugin('plug_auth_lite',
-    auth => $config->{auth} // sub { 0 },
-    authz => $config->{authz} // sub { 0 },
+    auth  => $config->{auth}  // sub { 0 },
+    authz => $config->{authz} // sub { 1 },
+    host  => $config->{host}  // sub { 0 },
   );
 }
 
@@ -31,7 +32,7 @@ PlugAuth::Lite - Pluggable (lite) authentication and authorization server.
 
 =head1 VERSION
 
-version 0.02
+version 0.03
 
 =head1 SYNOPSIS
 
