@@ -5,7 +5,7 @@ use Mojo::ByteStream qw( b );
 use v5.10;
 
 # ABSTRACT: Add a minimal PlugAuth server to your Mojolicious application.
-our $VERSION = '0.01'; # VERSION
+our $VERSION = '0.02'; # VERSION
 
 
 sub register
@@ -36,7 +36,7 @@ sub register
     {
       $self->render(text => 'not ok', status => 403);
     }
-  });
+  })->name('plugauth_auth');
   
   $app->routes->get("$base_url/authz/user/#user/#action/(*resource)" => { resource => '/' } => sub {
     my $self = shift;
@@ -50,7 +50,7 @@ sub register
     {
       $self->render(text => 'not ok', status => 403);
     }
-  });
+  })->name('plugauth_authz');
   
   return;
 }
@@ -67,7 +67,7 @@ Mojolicious::Plugin::PlugAuthLite - Add a minimal PlugAuth server to your Mojoli
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 SYNOPSIS
 

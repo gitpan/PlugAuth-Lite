@@ -1,3 +1,4 @@
+.travis.yml
 Changes
 INSTALL
 LICENSE
@@ -13,7 +14,9 @@ lib/PlugAuth/Lite.pm
 lib/Test/PlugAuth.pm
 t/base_uri.t
 t/basic_auth.t
+t/basic_auth_app.t
 t/basic_authz.t
+t/basic_authz_app.t
 t/default.t
 t/use.t
 xt/release/build_environment.t

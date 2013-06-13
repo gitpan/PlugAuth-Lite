@@ -3,30 +3,74 @@ NAME
     server.
 
 VERSION
-    version 0.01
+    version 0.02
 
 SYNOPSIS
     command line:
 
      % plugauthlite
 
-    Mojolicious (lite):
+    Mojolicious Plugin:
 
      use Mojolicious::Lite;
  
-     plugin 'plug_auth_lite';
+     plugin 'plug_auth_lite', 
+       auth => sub {
+         my($user, $pass) = @_;
+         if($user eq 'optimus' && $pass eq 'matrix')
+         { return 1; }
+         else
+         { return 0; }
+       },
+       authz => sub {
+         my($user, $action, $resource) = @_;
+         if($user eq 'optimus && $action eq 'open' && $resource =~ m{^/matrix})
+         { return 1 }
+         else
+         { return 0 }
+       };
+
+    Mojolicious App:
+
+     use PlugAuth::Lite;
+     my $app = PlugAuth::Lite->new({
+       auth => sub {
+         my($user, $pass) = @_;
+         if($user eq 'optimus' && $pass eq 'matrix')
+         { return 1; }
+         else
+         { return 0; }
+       },
+       authz => sub {
+         my($user, $action, $resource) = @_;
+         if($user eq 'optimus && $action eq 'open' && $resource =~ m{^/matrix})
+         { return 1 }
+         else
+         { return 0 }
+       },
+     });
 
 DESCRIPTION
-    This distribution provides a PlugAuth compatible server in the form of a
-    Mojolicious lite application (plugauthlite) and Mojolicious Plugin
-    (Mojolicious::Plugin::PlugAuthLite). In the future it will also contain
-    a testing interface for testing authentication and authorization rules
-    in Clustericious applications.
+    This distribution provides
+
+    plugauthlite
+        PlugAuth compatible server in the form of a Mojolicious::Lite
+        application.
+
+    Mojolicious::Plugin::PlugAuthLite
+        Mojolicious plugin that adds PlugAuth compatible routes to a new or
+        existing Mojolicious application.
+
+    PlugAuth::Lite
+        Mojolicious application with PlugAuth compatible routes that can be
+        spawned from within a perl application.
+
+    In the future it will also contain a testing interface for testing
+    authentication and authorization rules in Clustericious applications.
 
     It has fewer prerequisites that the full fledged PlugAuth server (simply
     Mojolicious and perl itself) but also fewer features (it notably lacks
-    the management interface). See the other modules in this distribution
-    for details.
+    the management interface).
 
 SEE ALSO
     plugauthlite, Mojolicious::Plugin::PlugAuthLite, Test::PlugAuth,

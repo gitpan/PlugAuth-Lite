@@ -5,7 +5,7 @@ use warnings;
 use v5.10;
 
 # ABSTRACT: minimum PlugAuth server to test Clustericious apps against
-our $VERSION = '0.01'; # VERSION
+our $VERSION = '0.02'; # VERSION
 
 
 1;
@@ -20,7 +20,7 @@ Test::PlugAuth - minimum PlugAuth server to test Clustericious apps against
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 SYNOPSIS
 
