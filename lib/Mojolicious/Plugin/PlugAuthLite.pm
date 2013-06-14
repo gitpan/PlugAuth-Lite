@@ -5,7 +5,7 @@ use Mojo::ByteStream qw( b );
 use v5.10;
 
 # ABSTRACT: Add a minimal PlugAuth server to your Mojolicious application.
-our $VERSION = '0.04'; # VERSION
+our $VERSION = '0.05'; # VERSION
 
 
 sub register
@@ -24,7 +24,7 @@ sub register
       my $auth_header = $self->req->headers->authorization;
       unless($auth_header)
       {
-        $self->res->headers->www_authenticate('Basic "$realm"');
+        $self->res->headers->www_authenticate("Basic \"$realm\"");
         $self->render(text => 'please authenticate', status => 401);
         return;
       }
@@ -86,7 +86,7 @@ Mojolicious::Plugin::PlugAuthLite - Add a minimal PlugAuth server to your Mojoli
 
 =head1 VERSION
 
-version 0.04
+version 0.05
 
 =head1 SYNOPSIS
 
