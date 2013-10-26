@@ -12,6 +12,8 @@ dist.ini
 lib/Mojolicious/Plugin/PlugAuthLite.pm
 lib/PlugAuth/Lite.pm
 lib/Test/PlugAuth.pm
+t/00_diag.t
+t/00_diag.txt
 t/base_uri.t
 t/basic_auth.t
 t/basic_auth_app.t
@@ -30,3 +32,4 @@ xt/release/pod_spelling_common.t
 xt/release/pod_spelling_system.t
 xt/release/release.yml
 xt/release/strict.t
+xt/release/version.t

@@ -7,7 +7,7 @@ use PlugAuth::Lite;
 use Mojo::UserAgent;
 
 # ABSTRACT: minimum PlugAuth server to test Clustericious apps against
-our $VERSION = '0.05'; # VERSION
+our $VERSION = '0.06'; # VERSION
 
 
 sub new
@@ -55,7 +55,7 @@ Test::PlugAuth - minimum PlugAuth server to test Clustericious apps against
 
 =head1 VERSION
 
-version 0.05
+version 0.06
 
 =head1 SYNOPSIS
 

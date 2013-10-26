@@ -4,7 +4,7 @@
       "Graham Ollis <plicease@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300034, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "Dist::Zilla version 4.300039, CPAN::Meta::Converter version 2.132830",
    "license" : [
       "perl_5"
    ],
@@ -20,9 +20,18 @@
          }
       },
       "runtime" : {
+         "recommends" : {
+            "EV" : "0"
+         },
          "requires" : {
             "Mojolicious" : "3.86",
-            "perl" : "5.010001"
+            "autodie" : "0",
+            "perl" : "5.010"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::More" : "0"
          }
       }
    },
@@ -38,6 +47,6 @@
          "web" : "https://github.com/plicease/plugauth-lite"
       }
    },
-   "version" : "0.05"
+   "version" : "0.06"
 }
 

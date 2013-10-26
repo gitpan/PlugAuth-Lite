@@ -6,19 +6,23 @@ use v5.10;
 use Mojo::Base qw( Mojolicious );
 
 # ABSTRACT: Pluggable (lite) authentication and authorization server.
-our $VERSION = '0.05'; # VERSION
+our $VERSION = '0.06'; # VERSION
+
+
+has 'auth';
+has 'authz';
+has 'host';
 
 sub startup
 {
   my($self, $config) = @_;
 
   $self->plugin('plug_auth_lite',
-    auth  => $config->{auth}  // sub { 0 },
-    authz => $config->{authz} // sub { 1 },
-    host  => $config->{host}  // sub { 0 },
+    auth  => $self->auth  // sub { 0 },
+    authz => $self->authz // sub { 1 },
+    host  => $self->host  // sub { 0 },
   );
 }
-
 
 1;
 
@@ -32,7 +36,7 @@ PlugAuth::Lite - Pluggable (lite) authentication and authorization server.
 
 =head1 VERSION
 
-version 0.05
+version 0.06
 
 =head1 SYNOPSIS
 
@@ -109,12 +113,34 @@ It has fewer prerequisites that the full fledged L<PlugAuth> server (simply
 L<Mojolicious> and perl itself) but also fewer features (it notably lacks
 the management interface).
 
+=head1 ATTRIBUTES
+
+=head2 auth
+
+Subroutine reference to call to check authentication.  Passes in C<($user, $pass)> should
+return true for authenticated, false otherwise.
+
+If not provided, all authentications fail.
+
+=head2 authz
+
+Subroutine reference to call to check authorization.  Passes in C<($user, $action, $resource)>
+and should return true for authorized, false otherwise.
+
+If not provided, all authorizations succeed.
+
+=head2 host
+
+Subroutine reference to call to check host information.
+
 =head1 SEE ALSO
 
 L<plugauthlite>,
 L<Mojolicious::Plugin::PlugAuthLite>,
 L<Test::PlugAuth>,
 L<Clustericious>
+
+=cut
 
 =head1 AUTHOR
 
