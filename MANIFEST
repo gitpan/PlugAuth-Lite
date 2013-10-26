@@ -20,6 +20,7 @@ t/basic_auth_app.t
 t/basic_authz.t
 t/basic_authz_app.t
 t/default.t
+t/test_plugauth.t
 t/use.t
 xt/release/build_environment.t
 xt/release/changes.t

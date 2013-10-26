@@ -7,7 +7,7 @@ use PlugAuth::Lite;
 use Mojo::UserAgent;
 
 # ABSTRACT: minimum PlugAuth server to test Clustericious apps against
-our $VERSION = '0.06'; # VERSION
+our $VERSION = '0.07'; # VERSION
 
 
 sub new
@@ -18,9 +18,9 @@ sub new
   
   $self->{app} = PlugAuth::Lite->new($config);
   $self->{ua}  = Mojo::UserAgent->new;
-  $self->ua->app($self->app);
+  eval { $self->ua->server->app($self->app) } // $self->ua->app($self->app);
   
-  $self->{url} = $self->ua->app_url->to_string;
+  $self->{url} = eval { $self->ua->server->url->to_string } // $self->ua->app_url->to_string;
   $self->{url} =~ s{/$}{};
   
   return $self;
@@ -55,7 +55,7 @@ Test::PlugAuth - minimum PlugAuth server to test Clustericious apps against
 
 =head1 VERSION
 
-version 0.06
+version 0.07
 
 =head1 SYNOPSIS
 
@@ -71,7 +71,7 @@ directives that you need to test:
    return $user eq 'gooduser' && $pass eq 'goodpass';
  });
  
- create_config_ok 'MyApp', { plug_auth => $auth->url };
+ create_config_ok 'MyApp', { plug_auth => { url => $auth->url } };
  
  $t = Test::Clustericious->new('MyApp');
  $auth->apply_to_client_app($t->app);
